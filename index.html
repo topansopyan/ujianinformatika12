@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ujian Interaktif Informatika XII - Bab 1</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            dark: '#0b0f19',
+                            card: '#111827',
+                            border: '#1f2937',
+                            primary: '#3b82f6',
+                            accent: '#8b5cf6',
+                            neon: '#06b6d4',
+                            success: '#10b981',
+                            warning: '#f59e0b',
+                            danger: '#ef4444'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #060913;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #111827;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
+        }
+        .glow-effect {
+            box-shadow: 0 0 20px -5px rgba(59, 130, 246, 0.3);
+        }
+        .glow-effect-accent {
+            box-shadow: 0 0 20px -5px rgba(139, 92, 246, 0.3);
+        }
+        @keyframes pulse-subtle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(0.99); }
+        }
+        .animate-pulse-subtle {
+            animation: pulse-subtle 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
+
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-slate-950/80 border-b border-slate-800/80 px-4 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                        Informatika XII Exam Quest
+                    </h1>
+                    <p class="text-xs text-slate-400">Bab 1: Informatika Sekarang & Masa Depan</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <!-- Sound Toggle -->
+                <button id="btnSound" onclick="toggleSound()" class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 transition" title="Mute/Unmute Suara">
+                    <i id="iconSound" class="fa-solid fa-volume-high"></i>
+                </button>
+                <!-- Timer Display (Hidden initially) -->
+                <div id="timerContainer" class="hidden flex items-center space-x-2 px-3.5 py-1.5 rounded-xl bg-slate-900/90 border border-blue-500/30 text-blue-400 font-mono font-semibold text-sm">
+                    <i class="fa-regular fa-clock animate-pulse"></i>
+                    <span id="timerText">30:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col justify-center">
+
+        <!-- WELCOME SCREEN -->
+        <section id="welcomeScreen" class="max-w-3xl mx-auto w-full bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-10 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+            <div class="absolute -top-24 -right-24 w-60 h-60 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-60 h-60 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="text-center space-y-4">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                    <i class="fa-solid fa-graduation-cap"></i> SMAN 2 KLARI - Kelas XII
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                    Ujian Interaktif Informatika
+                </h2>
+                <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+                    Uji pemahamanmu tentang Revolusi Industri 4.0, Artificial Intelligence, Big Data, Internet of Things, dan Cybersecurity dalam bentuk simulator kuis game.
+                </p>
+            </div>
+
+            <!-- Form Setup Player -->
+            <div class="mt-8 space-y-6 bg-slate-950/50 p-6 rounded-xl border border-slate-800/80">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Nama Peserta</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-user absolute left-3.5 top-3.5 text-slate-500"></i>
+                        <input type="text" id="playerName" placeholder="Masukkan nama kamu..." class="w-full bg-slate-900 border border-slate-700/80 rounded-xl py-2.5 pl-10 pr-4 text-white text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Pilih Avatar</label>
+                    <div class="grid grid-cols-4 gap-3" id="avatarSelector">
+                        <!-- Dynamic Avatars -->
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Total Soal</p>
+                            <p class="text-sm font-bold text-white">25 Butir Soal</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Kunci Jawaban</p>
+                            <p class="text-sm font-bold text-white">Muncul di Akhir</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <button onclick="startQuiz()" class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold text-base shadow-lg shadow-blue-500/25 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center space-x-2">
+                    <span>Mulai Ujian Sekarang</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- QUIZ GAME SCREEN -->
+        <section id="quizScreen" class="hidden grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+            
+            <!-- Left Side: Question Area (3 cols) -->
+            <div class="lg:col-span-3 space-y-4">
+                <!-- Question Card -->
+                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl relative">
+                    
+                    <!-- Progress Bar Top -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center text-xs font-semibold text-slate-400 mb-2">
+                            <span>Soal Ke <span id="currentQNumText" class="text-blue-400 font-bold text-sm">1</span> dari 25</span>
+                            <span id="progressPercentText" class="font-mono text-purple-400">4% Terjawab</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                            <div id="progressBar" class="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300 w-[4%]"></div>
+                        </div>
+                    </div>
+
+                    <!-- Question Header & Tag -->
+                    <div class="flex items-center justify-between gap-2 mb-4">
+                        <span id="questionCategory" class="px-3 py-1 rounded-md text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                            Topik Informatika
+                        </span>
+                        <button id="btnFlag" onclick="toggleFlagCurrentQuestion()" class="px-3 py-1.5 rounded-lg border border-slate-800 text-slate-400 hover:text-amber-400 hover:border-amber-500/40 text-xs font-medium transition flex items-center space-x-1.5">
+                            <i class="fa-solid fa-bookmark" id="flagIcon"></i>
+                            <span id="flagText">Ragu-ragu</span>
+                        </button>
+                    </div>
+
+                    <!-- Question Text -->
+                    <h3 id="questionText" class="text-lg sm:text-xl font-semibold text-slate-100 leading-relaxed min-h-[70px] mb-6">
+                        Memuat pertanyaan...
+                    </h3>
+
+                    <!-- Options Grid -->
+                    <div id="optionsContainer" class="space-y-3">
+                        <!-- Dynamic Options rendered via JS -->
+                    </div>
+
+                    <!-- Action Controls Footer -->
+                    <div class="mt-8 pt-6 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
+                        <button id="btnPrev" onclick="navigatePrev()" class="px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-800/50 hover:bg-slate-800 text-slate-200 font-medium text-sm transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center space-x-2">
+                            <i class="fa-solid fa-chevron-left text-xs"></i>
+                            <span>Sebelumnya</span>
+                        </button>
+
+                        <div class="flex items-center space-x-2">
+                            <button id="btnNext" onclick="navigateNext()" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-md shadow-blue-500/20 transition flex items-center space-x-2">
+                                <span>Selanjutnya</span>
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                            <button id="btnFinish" onclick="confirmSubmitQuiz()" class="hidden px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-md shadow-emerald-500/20 transition flex items-center space-x-2">
+                                <i class="fa-solid fa-paper-plane text-xs"></i>
+                                <span>Selesaikan Ujian</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Question Navigation Map (1 col) -->
+            <div class="lg:col-span-1 bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-2xl space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <h4 class="font-bold text-sm text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-grip text-blue-400"></i> Peta Soal
+                    </h4>
+                    <span id="answeredCountBadge" class="text-xs bg-slate-800 px-2.5 py-1 rounded-full font-mono text-slate-300">0/25</span>
+                </div>
+
+                <!-- Legend -->
+                <div class="grid grid-cols-3 gap-2 text-[10px] text-slate-400">
+                    <div class="flex items-center space-x-1">
+                        <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+                        <span>Dijawab</span>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                        <span>Ragu</span>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        <span class="w-2.5 h-2.5 rounded-full bg-slate-800 border border-slate-700"></span>
+                        <span>Belum</span>
+                    </div>
+                </div>
+
+                <!-- Grid Buttons -->
+                <div id="questionGrid" class="grid grid-cols-5 gap-2 max-h-[360px] overflow-y-auto custom-scrollbar pr-1 pt-1">
+                    <!-- 25 Buttons rendered dynamically -->
+                </div>
+
+                <div class="pt-3 border-t border-slate-800">
+                    <button onclick="confirmSubmitQuiz()" class="w-full py-2.5 rounded-xl border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 font-semibold text-xs transition flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-check-circle"></i>
+                        <span>Kirim Jawaban Ujian</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESULT SCREEN -->
+        <section id="resultScreen" class="hidden max-w-4xl mx-auto w-full space-y-6">
+            <!-- Summary Banner -->
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="space-y-2 z-10">
+                    <span id="badgeRank" class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 mb-1">
+                        🏆 Cyber Legend
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+                        Hasil Ujian: <span id="resPlayerName" class="text-blue-400">Siswa</span>
+                    </h2>
+                    <p class="text-slate-400 text-sm max-w-md">
+                        Berikut rekapitulasi nilai dan evaluasi pembahasan lengkap dari seluruh soal yang telah kamu selesaikan.
+                    </p>
+                </div>
+
+                <!-- Score Big Badge -->
+                <div class="z-10 bg-slate-950/80 border border-slate-800 p-6 rounded-2xl flex flex-col items-center justify-center min-w-[170px] shadow-inner">
+                    <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Nilai Akhir</span>
+                    <div id="finalScoreText" class="text-4xl sm:text-5xl font-black bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent font-mono">
+                        100
+                    </div>
+                    <span id="correctWrongSummary" class="text-xs text-slate-400 mt-2 font-medium">25 / 25 Benar</span>
+                </div>
+            </div>
+
+            <!-- Detailed Stat Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">Jawaban Benar</p>
+                        <p id="statCorrect" class="text-lg font-bold text-emerald-400">0</p>
+                    </div>
+                </div>
+                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">Jawaban Salah</p>
+                        <p id="statWrong" class="text-lg font-bold text-rose-400">0</p>
+                    </div>
+                </div>
+                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">Waktu Tempuh</p>
+                        <p id="statTime" class="text-lg font-bold text-amber-400 font-mono">00:00</p>
+                    </div>
+                </div>
+                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400">Akurasi</p>
+                        <p id="statAccuracy" class="text-lg font-bold text-purple-400 font-mono">0%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Header & Filters -->
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-file-pen text-blue-400"></i> Pembahasan Soal & Kunci Jawaban
+                        </h3>
+                        <p class="text-xs text-slate-400">Pelajari letak kesalahan dan konsep dasar setiap soal.</p>
+                    </div>
+
+                    <!-- Filter Buttons -->
+                    <div class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 text-xs font-semibold">
+                        <button onclick="filterReview('all')" id="btnFilterAll" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white transition">
+                            Semua (25)
+                        </button>
+                        <button onclick="filterReview('correct')" id="btnFilterCorrect" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition">
+                            Benar
+                        </button>
+                        <button onclick="filterReview('wrong')" id="btnFilterWrong" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition">
+                            Salah / Dilewati
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Review Items Container -->
+                <div id="reviewContainer" class="space-y-4">
+                    <!-- Dynamic review items generated by JS -->
+                </div>
+            </div>
+
+            <!-- Bottom Actions -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4 pt-2">
+                <button onclick="restartQuiz()" class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-lg shadow-blue-500/20 transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Ulangi Ujian</span>
+                </button>
+                <button onclick="window.print()" class="px-6 py-3 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Cetak Halaman Hasil</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Submit Confirmation Modal -->
+    <div id="confirmModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-pulse-subtle">
+            <div class="w-12 h-12 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl mx-auto">
+                <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+            <div class="text-center">
+                <h3 class="text-lg font-bold text-white">Konfirmasi Selesai Ujian</h3>
+                <p id="confirmModalText" class="text-slate-400 text-xs mt-1">
+                    Kamu telah menjawab 20 dari 25 soal. Apakah kamu yakin ingin menyelesaikan kuis sekarang?
+                </p>
+            </div>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="closeConfirmModal()" class="py-2.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition">
+                    Periksa Lagi
+                </button>
+                <button onclick="submitQuizNow()" class="py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-500/20 transition">
+                    Ya, Kirim Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 bg-slate-950/60 py-4 text-center text-xs text-slate-500">
+        <p>© 2026 SMAN 2 KLARI - Informatika XII (Modul Deep Learning) | Topan Sopyan, S.Kom.,Gr</p>
+    </footer>
+
+    <script>
+        /* 
+         ================================================================
+         QUIZ DATASET - 25 QUESTIONS INFORMATIKA KELAS XII BAB 1
+         ================================================================
+        */
+        const questionsData = [
+            {
+                id: 1,
+                category: "Revolusi Industri 4.0",
+                question: "Apa ciri utama yang membedakan Revolusi Industri 4.0 dari Revolusi Industri 3.0?",
+                options: [
+                    "Penggunaan mesin uap dalam skala besar manufaktur",
+                    "Pemanfaatan linia perakitan otomatis dan listrik",
+                    "Integrasi sistem siber-fisik dan kecerdasan buatan",
+                    "Pengenalan komputer pribadi tanpa koneksi internet"
+                ],
+                correctAnswer: 2,
+                explanation: "Revolusi Industri 4.0 ditandai oleh integrasi antara sistem fisik dan digital/siber melalui AI, IoT, Big Data, dan komputasi awan. Sedangkan Revolusi 3.0 berfokus pada komputerisasi dan otomatisasi awal."
+            },
+            {
+                id: 2,
+                category: "Artificial Intelligence",
+                question: "Manakah contoh penerapan teknologi Computer Vision dalam kehidupan sehari-hari?",
+                options: [
+                    "Sistem penerjemah teks otomatis antar bahasa",
+                    "Sistem pengenalan wajah pada verifikasi identitas smartphone",
+                    "Pengelompokan otomatis email spam berbasis kata kunci",
+                    "Rekomendasi lagu berdasarkan riwayat pendengaran"
+                ],
+                correctAnswer: 1,
+                explanation: "Computer Vision adalah cabang AI yang memungkinkan komputer 'melihat' dan menganalisis citra/video visual, seperti Face ID atau sistem pengenalan wajah pada perangkat seluler."
+            },
+            {
+                id: 3,
+                category: "Big Data",
+                question: "Sebuah aplikasi pesan instan menganalisis jutaan pesan masuk setiap detik untuk mendeteksi spam. Karakteristik Big Data manakah yang paling menonjol pada kasus ini?",
+                options: [
+                    "Volume",
+                    "Velocity",
+                    "Variety",
+                    "Veracity"
+                ],
+                correctAnswer: 1,
+                explanation: "Velocity merujuk pada kecepatan tinggi dalam pemrosesan dan penerimaan aliran data yang masuk secara real-time (seperti jutaan pesan per detik)."
+            },
+            {
+                id: 4,
+                category: "Internet of Things",
+                question: "Dalam arsitektur Internet of Things (IoT), perangkat apakah yang berfungsi menangkap fenomena fisik lingkungan lalu mengubahnya menjadi sinyal listrik?",
+                options: [
+                    "Aktuator",
+                    "Gateway",
+                    "Sensor",
+                    "Microcontroller"
+                ],
+                correctAnswer: 2,
+                explanation: "Sensor berfungsi mengukur parameter fisik lingkungan (seperti suhu, kelembaban, cahaya) dan mengonversinya menjadi sinyal elektrik yang dikirimkan ke sistem."
+            },
+            {
+                id: 5,
+                category: "Cybersecurity",
+                question: "Seorang pengguna menerima email yang mengaku dari lembaga keuangan resmi dan meminta konfirmasi kata sandi melalui tautan tiruan. Metode kejahatan siber apakah ini?",
+                options: [
+                    "Ransomware",
+                    "Phishing",
+                    "DDoS Attack",
+                    "Man-in-the-Middle"
+                ],
+                correctAnswer: 1,
+                explanation: "Phishing adalah teknik penipuan rekayasa sosial (social engineering) dengan menyamar sebagai institusi tepercaya untuk mengelabuhi korban agar memberikan informasi sensitif."
+            },
+            {
+                id: 6,
+                category: "Artificial Intelligence",
+                question: "Bagaimanakah prinsip kerja utama dari teknologi Machine Learning dalam sistem kecerdasan buatan?",
+                options: [
+                    "Menulis kode program secara manual untuk setiap kemungkinan skenario",
+                    "Mengenali pola dari data historis untuk melakukan prediksi secara mandiri",
+                    "Menggunakan logika aturan keras (hard-coded rules) konvensional",
+                    "Menghubungkan komputer secara fisik melalui kabel serat optik"
+                ],
+                correctAnswer: 1,
+                explanation: "Machine Learning bekerja dengan cara melatih model menggunakan dataset historis agar sistem dapat mempelajari pola dan membuat prediksi tanpa diprogram secara eksplisit untuk setiap rule."
+            },
+            {
+                id: 7,
+                category: "Big Data",
+                question: "Manakah dari jenis data berikut yang dikategorikan sebagai data tidak terstruktur (unstructured data) dalam pemrosesan Big Data?",
+                options: [
+                    "Tabel basis data relasional SQL",
+                    "File lembar kerja Excel bernomor",
+                    "Rekaman video pengawasan lalu lintas",
+                    "Daftar transaksi keuangan berformat CSV"
+                ],
+                correctAnswer: 2,
+                explanation: "Video, audio, gambar, dan postingan media sosial merupakan contoh unstructured data karena tidak memiliki skema atau bentuk tabel kaku bawaan."
+            },
+            {
+                id: 8,
+                category: "Internet of Things",
+                question: "Mengapa penerapan Edge Computing sangat krusial pada sistem IoT kendaraan otonom?",
+                options: [
+                    "Menghemat biaya pembelian perangkat lunak server",
+                    "Mengurangi latensi pemrosesan data untuk respon keselamatan fraksi detik",
+                    "Menghilangkan kebutuhan akan sensor jarak pada kendaraan",
+                    "Menyimpan seluruh data video perjalanan secara permanen di cloud"
+                ],
+                correctAnswer: 1,
+                explanation: "Edge Computing memproses data langsung di dekat sumber perangkat (pada mobil itu sendiri) tanpa harus menunggu pemicuan ke server cloud pusat, mengurangi latensi menjadi hitungan milidetik demi keselamatan."
+            },
+            {
+                id: 9,
+                category: "Cybersecurity",
+                question: "Apa fungsi utama dari tindakan autentikasi dua faktor (Multi-Factor Authentication / MFA) pada akun digital?",
+                options: [
+                    "Membuat koneksi internet menjadi dua kali lebih cepat",
+                    "Verifikasi identitas tambahan sebelum memberikan akses akun",
+                    "Menginkripsi seluruh riwayat pesan secara otomatis",
+                    "Menghapus malware dari komputer secara berkala"
+                ],
+                correctAnswer: 1,
+                explanation: "MFA memberikan lapisan keamanan ekstra dengan mewajibkan minimal 2 bukti verifikasi berbeda (misal: password + kode OTP SMS/Authenticator)."
+            },
+            {
+                id: 10,
+                category: "Etika AI & Teknologi",
+                question: "Sistem AI dalam proses rekrutmen ditemukan sering menolak pelamar dari kelompok tertentu secara sistematis. Isu etis apa yang terjadi pada kasus ini?",
+                options: [
+                    "Kebocoran kunci enkripsi",
+                    "Bias algoritma akibat kecenderungan data latih historis",
+                    "Ketidakcocokan perangkat keras komputer",
+                    "Serangan virus komputer lokal"
+                ],
+                correctAnswer: 1,
+                explanation: "Bias algoritma terjadi ketika data historis yang digunakan untuk melatih AI sudah mengandung prasangka atau ketimpangan masa lalu, sehingga AI mereproduksi diskriminasi tersebut."
+            },
+            {
+                id: 11,
+                category: "Big Data",
+                question: "Dalam konsep 3V/5V Big Data, aspek manakah yang menggambarkan variasi format data seperti teks, audio, gambar, dan log sistem?",
+                options: [
+                    "Volume",
+                    "Velocity",
+                    "Variety",
+                    "Value"
+                ],
+                correctAnswer: 2,
+                explanation: "Variety menggambarkan keberagaman jenis dan format data yang ditangani, mulai dari data terstruktur, semi-terstruktur, hingga tidak terstruktur."
+            },
+            {
+                id: 12,
+                category: "Cybersecurity",
+                question: "Tindakan apakah yang dilakukan oleh jenis malware Ransomware ketika berhasil menginfeksi perangkat target?",
+                options: [
+                    "Mengirimkan spam iklan pop-up terus menerus",
+                    "Enkripsi berkas penting dan permintaan uang tebusan untuk kunci pembuka",
+                    "Merusak komponen fisik kipas pendingin laptop",
+                    "Menghapus riwayat pencarian peramban web"
+                ],
+                correctAnswer: 1,
+                explanation: "Ransomware menyandera/mengenkripsi data korban sehingga tidak bisa diakses, lalu memeras korban dengan meminta tebusan jika ingin mendapatkan kunci dekripsi."
+            },
+            {
+                id: 13,
+                category: "Internet of Things",
+                question: "Manakah contoh penerapan Internet of Things (IoT) pada sektor pertanian presisi (smart agriculture)?",
+                options: [
+                    "Menjual hasil panen secara e-commerce melalui aplikasi mobile",
+                    "Penyiraman tanaman otomatis berbasis sensor kelembaban tanah",
+                    "Membuat poster digital untuk pemasaran produk pupuk",
+                    "Pencatatan keuangan pembukuan hasil tani di spreadsheet"
+                ],
+                correctAnswer: 1,
+                explanation: "Smart Agriculture menggunakan sensor IoT tanah untuk mendeteksi kelembaban dan secara otomatis mengaktifkan aktuator/pomp penyiraman sesuai kondisi riil."
+            },
+            {
+                id: 14,
+                category: "Artificial Intelligence",
+                question: "Sistem AI yang mampu menghasilkan teks baru, gambar sintetis, atau musik berdasarkan petunjuk (prompt) pengguna dikenal dengan sebutan?",
+                options: [
+                    "Analytical AI",
+                    "Generative AI",
+                    "Robotic Process Automation",
+                    "Embedded System"
+                ],
+                correctAnswer: 1,
+                explanation: "Generative AI (seperti ChatGPT, Midjourney) dirancang khusus untuk menciptakan/menghasilkan konten baru yang mirip ciptaan manusia berdasarkan pola data latihnya."
+            },
+            {
+                id: 15,
+                category: "Cybersecurity",
+                question: "Langkah apakah yang paling efektif bagi pengguna untuk memitigasi risiko serangan Phishing melalui pesan instan?",
+                options: [
+                    "Langsung mengklik tautan tanpa ragu",
+                    "Verifikasi keaslian nama domain tautan sebelum membukanya",
+                    "Mengunduh semua file lampiran secara langsung",
+                    "Membagikan pesan tersebut ke grup lain"
+                ],
+                correctAnswer: 1,
+                explanation: "Memeriksa domain/URL secara teliti (misal: memastikan bukan domain tiruan seperti b1snis-bank.com alih-alih bank.com) adalah cara efektif menangkal phishing."
+            },
+            {
+                id: 16,
+                category: "Internet of Things",
+                question: "Dalam ekosistem Smart City, komponen IoT manakah yang bertindak sebagai aktuator untuk merespon instruksi sistem?",
+                options: [
+                    "Sensor deteksi pergerakan kendaraan",
+                    "Lampu penerangan jalan otomatis yang redup dan terang",
+                    "Kamera pengawas suhu lingkungan",
+                    "Server database pusat kota"
+                ],
+                correctAnswer: 1,
+                explanation: "Aktuator adalah komponen eksekutor fisik yang melakukan aksi/gerakan mekanis berdasarkan perintah, seperti meredupkan atau menerangkan lampu jalan."
+            },
+            {
+                id: 17,
+                category: "Big Data & Etika",
+                question: "Mengapa privasi data menjadi tantangan utama saat menggabungkan beberapa dataset Big Data dari berbagai sumber?",
+                options: [
+                    "Ukuran berkas menjadi terlalu kecil",
+                    "Potensi terungkapnya identitas anonim melalui pencocokan pola data",
+                    "Komputer tidak bisa membaca format data campuran",
+                    "Biaya listrik komputer menjadi gratis"
+                ],
+                correctAnswer: 1,
+                explanation: "Meskipun dataset dipisah dan dianonimkan, penggabungan Big Data dari pelbagai sumber memungkinkan teknik re-identifikasi dengan mencocokkan jejak pola perilaku pengguna."
+            },
+            {
+                id: 18,
+                category: "Cybersecurity",
+                question: "Apakah fungsi utama dari perangkat Firewall dalam arsitektur keamanan jaringan komputer?",
+                options: [
+                    "Meningkatkan resolusi grafik layar monitor",
+                    "Menyaring dan membatasi lalu lintas data berdasarkan aturan keamanan",
+                    "Menyimpan file dokumen word ke dalam flashdisk",
+                    "Mencetak dokumen jaringan secara nirkabel"
+                ],
+                correctAnswer: 1,
+                explanation: "Firewall bertindak sebagai benteng pertahanan yang memantau, menyaring, dan memblokir lalu lintas masuk/keluar yang mencurigakan berdasarkan sekumpulan aturan keamanan."
+            },
+            {
+                id: 19,
+                category: "Artificial Intelligence",
+                question: "Teknologi AI yang memanfaatkan jaringan saraf tiruan berlapis-lapis untuk menganalisis data kompleks dinamakan?",
+                options: [
+                    "Expert System",
+                    "Deep Learning",
+                    "Rule-Based Engine",
+                    "Decision Tree sederhana"
+                ],
+                correctAnswer: 1,
+                explanation: "Deep Learning menggunakan Deep Neural Networks (jaringan saraf tiruan multi-layer) untuk memproses pola abstrak tingkat tinggi seperti gambar, suara, dan teks alami."
+            },
+            {
+                id: 20,
+                category: "Digital Citizenship",
+                question: "Manakah tindakan yang mencerminkan etika kewargaan digital (digital citizenship) yang bertanggung jawab?",
+                options: [
+                    "Membagikan tangkapan layar informasi provokatif tanpa cek sumber",
+                    "Memeriksa dan memverifikasi kebenaran fakta sebelum membagikan berita",
+                    "Menggunakan identitas orang lain untuk mendaftar akun sosial",
+                    "Mengkritik dengan ujaran kebencian di kolom komentar"
+                ],
+                correctAnswer: 1,
+                explanation: "Kewargaan digital yang beretika mencakup kebiasaan verifikasi fakta (fact-checking) sebelum menyebarkan kabar demi mencegah penyebaran hoaks."
+            },
+            {
+                id: 21,
+                category: "Big Data",
+                question: "Pada konsep Big Data, istilah Veracity merujuk pada aspek apa?",
+                options: [
+                    "Jumlah total terabyte data",
+                    "Kecepatan transfer data per detik",
+                    "Tingkat kebenaran, keandalan, dan kualitas kebersihan data",
+                    "Variasi ekstensi file dokumen"
+                ],
+                correctAnswer: 2,
+                explanation: "Veracity menekankan pada keakuratan, kebenaran, dan kualitas data. Data berukuran besar tidak berguna jika dipenuhi data palsu/kotor (noise)."
+            },
+            {
+                id: 22,
+                category: "Cybersecurity",
+                question: "Jenis malware yang menyamar sebagai program berguna untuk mengelabuhi pengguna agar memasangnya disebut?",
+                options: [
+                    "Spyware",
+                    "Trojan Horse",
+                    "Worm",
+                    "Keylogger"
+                ],
+                correctAnswer: 1,
+                explanation: "Trojan Horse berpura-pura menjadi aplikasi legitimate/berguna (game, utilitas), namun di dalamnya mengandung muatan berbahaya yang akan mengeksploitasi sistem."
+            },
+            {
+                id: 23,
+                category: "Cybersecurity",
+                question: "Mengapa penggunaan kata sandi sederhana seperti '123456' sangat berbahaya dalam keamanan siber?",
+                options: [
+                    "Sistem akan lambat saat login",
+                    "Rentan terhadap serangan otomatis Brute Force dan Dictionary Attack",
+                    "Membuat kapasitas memori RAM penuh",
+                    "Menyebabkan koneksi internet terputus"
+                ],
+                correctAnswer: 1,
+                explanation: "Password pendek/pasaran masuk dalam daftar kamus peretas (dictionary attack) dan sangat mudah dicoba jutaan kali per detik secara otomatis (brute force attack)."
+            },
+            {
+                id: 24,
+                category: "Inovasi Informatika",
+                question: "Dalam proyek inovasi informatika, manakah langkah awal yang paling krusial sebelum merancang aplikasi solusi?",
+                options: [
+                    "Membeli server komputer termahal",
+                    "Identifikasi dan perumusan masalah riil yang jelas",
+                    "Membuat desain logo aplikasi terlebih dahulu",
+                    "Menentukan harga jual aplikasi ke pasar"
+                ],
+                correctAnswer: 1,
+                explanation: "Inovasi yang berdampak dimulai dari pemahaman mendalam atas perumusan masalah nyata (problem identification) sebelum menentukan teknologi pemecahannya."
+            },
+            {
+                id: 25,
+                category: "Internet of Things & Security",
+                question: "Apakah risiko utama jika perangkat IoT smart home tidak diperbarui (update) peranti lunaknya secara berkala?",
+                options: [
+                    "Perangkat akan kehabisan memori penyimpanan fisik",
+                    "Eksploitasi celah kerentanan keamanan lama oleh peretas",
+                    "Lampu rumah akan berubah warna secara otomatis",
+                    "Tagihan listrik rumah akan langsung melonjak"
+                ],
+                correctAnswer: 1,
+                explanation: "Perangkat IoT tanpa update firmware rentan disusupi karena celah keamanan lama tidak ditutup, memungkinkan peretas menjadikan perangkat bagian dari botnet."
+            }
+        ];
+
+        /*
+         ================================================================
+         APPLICATION STATE & APP LOGIC
+         ================================================================
+        */
+        const avatarOptions = [
+            { id: 'cyborg', icon: 'fa-robot', name: 'Cyborg' },
+            { id: 'hacker', icon: 'fa-user-ninja', name: 'Cyber Ninja' },
+            { id: 'ai', icon: 'fa-brain', name: 'AI Core' },
+            { id: 'coder', icon: 'fa-code', name: 'Dev Prodigy' }
+        ];
+
+        let state = {
+            playerName: '',
+            selectedAvatar: 'cyborg',
+            currentQuestionIndex: 0,
+            userAnswers: new Array(25).fill(null), // stores option index selected
+            flaggedQuestions: new Array(25).fill(false),
+            startTime: null,
+            endTime: null,
+            timerInterval: null,
+            secondsElapsed: 0,
+            soundEnabled: true,
+            reviewFilter: 'all'
+        };
+
+        // Synthesizer Audio for SFX without external audio files
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playSfx(type) {
+            if (!state.soundEnabled) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } else if (type === 'select') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(600, now);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'finish') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                }
+            } catch (e) {
+                console.log('Audio error:', e);
+            }
+        }
+
+        function toggleSound() {
+            state.soundEnabled = !state.soundEnabled;
+            const icon = document.getElementById('iconSound');
+            const btn = document.getElementById('btnSound');
+            if (state.soundEnabled) {
+                icon.className = 'fa-solid fa-volume-high';
+                btn.classList.remove('text-rose-400');
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark';
+                btn.classList.add('text-rose-400');
+            }
+        }
+
+        // Initialize Avatars on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderAvatarSelector();
+        });
+
+        function renderAvatarSelector() {
+            const container = document.getElementById('avatarSelector');
+            container.innerHTML = avatarOptions.map(av => `
+                <div onclick="selectAvatar('${av.id}')" id="avatar-card-${av.id}" class="cursor-pointer border ${state.selectedAvatar === av.id ? 'border-blue-500 bg-blue-500/10 text-blue-400' : 'border-slate-800 bg-slate-900 text-slate-400'} rounded-xl p-3 text-center transition hover:border-slate-700">
+                    <i class="fa-solid ${av.icon} text-2xl mb-1 block"></i>
+                    <span class="text-[11px] font-semibold">${av.name}</span>
+                </div>
+            `).join('');
+        }
+
+        function selectAvatar(id) {
+            playSfx('select');
+            state.selectedAvatar = id;
+            renderAvatarSelector();
+        }
+
+        /* 
+         ================================================================
+         QUIZ FLOW CONTROLLERS
+         ================================================================
+        */
+        function startQuiz() {
+            const nameInput = document.getElementById('playerName').value.trim();
+            state.playerName = nameInput !== '' ? nameInput : 'Peserta Didik';
+            
+            playSfx('click');
+
+            // Hide Welcome, Show Quiz Screen
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.remove('hidden');
+            document.getElementById('timerContainer').classList.remove('hidden');
+
+            // Start Timer
+            state.startTime = new Date();
+            state.secondsElapsed = 0;
+            state.timerInterval = setInterval(() => {
+                state.secondsElapsed++;
+                updateTimerDisplay();
+            }, 1000);
+
+            // Render First Question & Grid
+            renderQuestionGrid();
+            loadQuestion(0);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(state.secondsElapsed / 60);
+            const secs = state.secondsElapsed % 60;
+            const formatted = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            document.getElementById('timerText').innerText = formatted;
+        }
+
+        function loadQuestion(index) {
+            state.currentQuestionIndex = index;
+            const q = questionsData[index];
+
+            // Category & Question Text
+            document.getElementById('questionCategory').innerText = q.category;
+            document.getElementById('questionText').innerText = q.question;
+            document.getElementById('currentQNumText').innerText = index + 1;
+
+            // Flag status
+            const isFlagged = state.flaggedQuestions[index];
+            const btnFlag = document.getElementById('btnFlag');
+            if (isFlagged) {
+                btnFlag.classList.add('bg-amber-500/20', 'text-amber-400', 'border-amber-500/40');
+                document.getElementById('flagText').innerText = 'Ragu-ragu (Aktif)';
+            } else {
+                btnFlag.classList.remove('bg-amber-500/20', 'text-amber-400', 'border-amber-500/40');
+                document.getElementById('flagText').innerText = 'Ragu-ragu';
+            }
+
+            // Options
+            const container = document.getElementById('optionsContainer');
+            const selectedOptIndex = state.userAnswers[index];
+
+            const optionLabels = ['A', 'B', 'C', 'D'];
+            container.innerHTML = q.options.map((optText, optIdx) => {
+                const isSelected = selectedOptIndex === optIdx;
+                return `
+                    <div onclick="selectOption(${optIdx})" class="group cursor-pointer p-4 rounded-xl border ${isSelected ? 'border-blue-500 bg-blue-500/10 text-white shadow-md shadow-blue-500/10' : 'border-slate-800/90 bg-slate-950/60 hover:bg-slate-800/50 hover:border-slate-700 text-slate-300'} transition flex items-center space-x-3.5">
+                        <span class="w-8 h-8 rounded-lg ${isSelected ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 group-hover:bg-slate-700 group-hover:text-slate-200'} flex items-center justify-center font-bold text-xs shrink-0 transition">
+                            ${optionLabels[optIdx]}
+                        </span>
+                        <span class="text-sm leading-snug font-medium">${optText}</span>
+                    </div>
+                `;
+            }).join('');
+
+            // Update Navigation Prev/Next
+            document.getElementById('btnPrev').disabled = index === 0;
+            if (index === questionsData.length - 1) {
+                document.getElementById('btnNext').classList.add('hidden');
+                document.getElementById('btnFinish').classList.remove('hidden');
+            } else {
+                document.getElementById('btnNext').classList.remove('hidden');
+                document.getElementById('btnFinish').classList.add('hidden');
+            }
+
+            // Update Progress Bar
+            updateProgressBar();
+            renderQuestionGrid();
+        }
+
+        function selectOption(optionIndex) {
+            playSfx('select');
+            state.userAnswers[state.currentQuestionIndex] = optionIndex;
+            loadQuestion(state.currentQuestionIndex);
+        }
+
+        function toggleFlagCurrentQuestion() {
+            playSfx('click');
+            const curr = state.currentQuestionIndex;
+            state.flaggedQuestions[curr] = !state.flaggedQuestions[curr];
+            loadQuestion(curr);
+        }
+
+        function navigatePrev() {
+            if (state.currentQuestionIndex > 0) {
+                playSfx('click');
+                loadQuestion(state.currentQuestionIndex - 1);
+            }
+        }
+
+        function navigateNext() {
+            if (state.currentQuestionIndex < questionsData.length - 1) {
+                playSfx('click');
+                loadQuestion(state.currentQuestionIndex + 1);
+            }
+        }
+
+        function updateProgressBar() {
+            const answeredCount = state.userAnswers.filter(a => a !== null).length;
+            const percent = Math.round((answeredCount / questionsData.length) * 100);
+            document.getElementById('progressBar').style.width = `${percent}%`;
+            document.getElementById('progressPercentText').innerText = `${percent}% Terjawab`;
+            document.getElementById('answeredCountBadge').innerText = `${answeredCount}/${questionsData.length}`;
+        }
+
+        function renderQuestionGrid() {
+            const grid = document.getElementById('questionGrid');
+            grid.innerHTML = questionsData.map((_, i) => {
+                const isCurrent = state.currentQuestionIndex === i;
+                const isAnswered = state.userAnswers[i] !== null;
+                const isFlagged = state.flaggedQuestions[i];
+
+                let bgClass = 'bg-slate-800/80 border-slate-700 text-slate-400 hover:bg-slate-700';
+                if (isFlagged) {
+                    bgClass = 'bg-amber-500/20 border-amber-500/50 text-amber-300 font-bold';
+                } else if (isAnswered) {
+                    bgClass = 'bg-blue-600 border-blue-500 text-white font-bold';
+                }
+
+                if (isCurrent) {
+                    bgClass += ' ring-2 ring-white ring-offset-2 ring-offset-slate-900';
+                }
+
+                return `
+                    <button onclick="jumpToQuestion(${i})" class="w-full aspect-square rounded-lg border text-xs flex items-center justify-center transition relative ${bgClass}">
+                        ${i + 1}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function jumpToQuestion(i) {
+            playSfx('click');
+            loadQuestion(i);
+        }
+
+        /* 
+         ================================================================
+         CONFIRMATION & SUBMISSION
+         ================================================================
+        */
+        function confirmSubmitQuiz() {
+            playSfx('click');
+            const answeredCount = state.userAnswers.filter(a => a !== null).length;
+            const text = `Kamu telah menjawab ${answeredCount} dari ${questionsData.length} soal. Yakin ingin menyelesaikan ujian sekarang?`;
+            document.getElementById('confirmModalText').innerText = text;
+            document.getElementById('confirmModal').classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            playSfx('click');
+            document.getElementById('confirmModal').classList.add('hidden');
+        }
+
+        function submitQuizNow() {
+            playSfx('finish');
+            clearInterval(state.timerInterval);
+            state.endTime = new Date();
+
+            document.getElementById('confirmModal').classList.add('hidden');
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+
+            calculateAndDisplayResults();
+        }
+
+        /* 
+         ================================================================
+         RESULTS & EVALUATION LOGIC
+         ================================================================
+        */
+        function calculateAndDisplayResults() {
+            let correctCount = 0;
+            questionsData.forEach((q, idx) => {
+                if (state.userAnswers[idx] === q.correctAnswer) {
+                    correctCount++;
+                }
+            });
+
+            const total = questionsData.length;
+            const wrongCount = total - correctCount;
+            const score = Math.round((correctCount / total) * 100);
+
+            // Display Top Stats
+            document.getElementById('resPlayerName').innerText = state.playerName;
+            document.getElementById('finalScoreText').innerText = score;
+            document.getElementById('correctWrongSummary').innerText = `${correctCount} / ${total} Benar`;
+            
+            document.getElementById('statCorrect').innerText = correctCount;
+            document.getElementById('statWrong').innerText = wrongCount;
+            document.getElementById('statAccuracy').innerText = `${score}%`;
+
+            const mins = Math.floor(state.secondsElapsed / 60);
+            const secs = state.secondsElapsed % 60;
+            document.getElementById('statTime').innerText = `${mins}m ${secs}s`;
+
+            // Badge Rank Determination
+            const badgeEl = document.getElementById('badgeRank');
+            if (score === 100) {
+                badgeEl.innerHTML = '🏆 Cyber Legend (Sempurna!)';
+                badgeEl.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30';
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            } else if (score >= 80) {
+                badgeEl.innerHTML = '🥇 Master AI & Informatics';
+                badgeEl.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/30';
+                confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+            } else if (score >= 65) {
+                badgeEl.innerHTML = '🥈 Tech Explorer';
+                badgeEl.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold bg-purple-500/10 text-purple-400 border border-purple-500/30';
+            } else {
+                badgeEl.innerHTML = '🥉 Apprentice Specialist';
+                badgeEl.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold bg-slate-500/10 text-slate-400 border border-slate-500/30';
+            }
+
+            renderReviewList();
+        }
+
+        function filterReview(filterType) {
+            playSfx('click');
+            state.reviewFilter = filterType;
+
+            // Toggle Button Styles
+            ['all', 'correct', 'wrong'].forEach(type => {
+                const btn = document.getElementById(`btnFilter${type.charAt(0).toUpperCase() + type.slice(1)}`);
+                if (type === filterType) {
+                    btn.className = 'px-3 py-1.5 rounded-lg bg-blue-600 text-white transition';
+                } else {
+                    btn.className = 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition';
+                }
+            });
+
+            renderReviewList();
+        }
+
+        function renderReviewList() {
+            const container = document.getElementById('reviewContainer');
+            const optionLabels = ['A', 'B', 'C', 'D'];
+
+            let filteredIndices = [];
+            questionsData.forEach((q, idx) => {
+                const userAns = state.userAnswers[idx];
+                const isCorrect = userAns === q.correctAnswer;
+                if (state.reviewFilter === 'all') filteredIndices.push(idx);
+                else if (state.reviewFilter === 'correct' && isCorrect) filteredIndices.push(idx);
+                else if (state.reviewFilter === 'wrong' && !isCorrect) filteredIndices.push(idx);
+            });
+
+            if (filteredIndices.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-slate-500 text-sm">
+                        Tidak ada soal yang sesuai dengan filter ini.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filteredIndices.map(idx => {
+                const q = questionsData[idx];
+                const userAns = state.userAnswers[idx];
+                const isCorrect = userAns === q.correctAnswer;
+
+                return `
+                    <div class="bg-slate-950/70 border ${isCorrect ? 'border-emerald-500/30' : 'border-rose-500/30'} rounded-xl p-5 space-y-3">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-xs font-bold text-slate-400">Soal #${idx + 1} • <span class="text-indigo-400">${q.category}</span></span>
+                            ${isCorrect 
+                                ? '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><i class="fa-solid fa-check mr-1"></i> Benar</span>'
+                                : '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20"><i class="fa-solid fa-xmark mr-1"></i> Salah / Dilewati</span>'
+                            }
+                        </div>
+
+                        <p class="text-sm font-semibold text-slate-100">${q.question}</p>
+
+                        <!-- Answer Comparison -->
+                        <div class="space-y-1.5 pt-1">
+                            ${q.options.map((opt, oIdx) => {
+                                let style = 'bg-slate-900/60 border-slate-800 text-slate-400';
+                                let badge = '';
+
+                                if (oIdx === q.correctAnswer) {
+                                    style = 'bg-emerald-500/10 border-emerald-500/40 text-emerald-300 font-semibold';
+                                    badge = '<span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-mono ml-auto">Jawaban Benar</span>';
+                                } else if (oIdx === userAns && !isCorrect) {
+                                    style = 'bg-rose-500/10 border-rose-500/40 text-rose-300 line-through';
+                                    badge = '<span class="text-[10px] bg-rose-500/20 text-rose-300 px-2 py-0.5 rounded font-mono ml-auto">Pilihanmu</span>';
+                                }
+
+                                return `
+                                    <div class="p-2.5 rounded-lg border text-xs flex items-center space-x-2 ${style}">
+                                        <span class="font-bold w-5">${optionLabels[oIdx]}.</span>
+                                        <span>${opt}</span>
+                                        ${badge}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+
+                        <!-- Explanation Box -->
+                        <div class="mt-3 p-3 rounded-lg bg-blue-950/30 border border-blue-500/20 text-xs text-blue-200/90 leading-relaxed">
+                            <strong class="text-blue-400 block mb-0.5"><i class="fa-solid fa-lightbulb mr-1"></i> Pembahasan Konsep:</strong>
+                            ${q.explanation}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function restartQuiz() {
+            playSfx('click');
+            state.userAnswers = new Array(25).fill(null);
+            state.flaggedQuestions = new Array(25).fill(false);
+            state.secondsElapsed = 0;
+            state.currentQuestionIndex = 0;
+
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('welcomeScreen').classList.remove('hidden');
+            document.getElementById('timerContainer').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
